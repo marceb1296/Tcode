@@ -6,8 +6,6 @@ services:
     image: tcode/frontend
     build:
       context: ./frontend
-    volumes:
-      - ./frontend:/app
     ports:
       - 3000:3000
     

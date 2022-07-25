@@ -3,8 +3,8 @@ WORKDIR /app
 
 COPY . /app
 
-RUN npm install --production=false
-RUN npm i sass --save-dev
+RUN npm install --production=false --silent
+RUN npm i sass --save-dev --silent
 RUN npm audit --production
 
 

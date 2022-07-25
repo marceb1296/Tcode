@@ -1,0 +1,125 @@
+.query {
+  //text-align: center;
+  display: flex;
+  justify-content: center;
+  font-size: .9em;
+  
+  & .values {
+    background-color: #2196F3;
+    width: 90%;
+    text-align: center;
+    border-radius: 10px;
+    padding-block: .4em;
+    color: white;
+  }
+
+}
+
+.rows {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+
+  &.dark {
+    color: white;
+
+    & select {
+      color: white;
+      border-bottom: 2px solid white;
+    }
+  }
+
+}
+
+.errors {
+  display: flex;
+  justify-content: center;
+  font-size: .9em;
+
+  & .values {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    background-color: #ffeb3b;
+    width: 90%;
+    text-align: center;
+    border-radius: 10px;
+    padding-block: .4em;
+    color: black;
+  }
+}
+
+.nan {
+  display: flex;
+  justify-content: center;
+
+  &.dark {
+    color: white;
+  }
+}
+
+.container-table {
+  overflow-x: auto;
+  margin: 0 2em;
+  padding: 1em .1em;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+    font-size: .7em;  
+    margin: 0;
+  
+    & tr, th {
+      transition: background 1s ease-in-out, color 1s ease-in-out, border 1s ease-in-out;
+    }
+  
+    & tr:nth-child(even) { 
+      background: #a5def1;
+      color: black; 
+    }
+    
+    & tr:nth-child(odd) { 
+      background: #71c5ef;
+      color: black; 
+    }
+  
+    & th { 
+      background: #2756a8; 
+      color: white; 
+      font-weight: bold; 
+    }
+  
+    & td, th { 
+      padding: .5em; 
+      border: 1px solid black; 
+      text-align: left;
+    }
+  
+    &.dark {
+  
+      & tr:nth-child(even) { 
+        background: #674fc9;
+        color: white; 
+      }
+  
+      & tr:nth-child(odd) { 
+        background: #3b2f6c;
+        color: white; 
+      }
+    
+      & th { 
+        background: #042e41; 
+        color: white; 
+        font-weight: bold; 
+      }
+  
+      & td, th { 
+        padding: .5em; 
+        border: 1px solid white; 
+        text-align: left;
+      }
+    }
+  }
+}

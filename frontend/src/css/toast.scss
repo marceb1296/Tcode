@@ -1,0 +1,239 @@
+.container {
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+    box-sizing: border-box;
+
+    & .toast {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 1;
+        transition: transform .7s ease-in-out, opacity 2s ease-in;
+        animation: toast-in-right .7s;
+
+        &.fade {
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        & .toast-container {
+            background: rgb(3, 93, 3, .8);
+            color: white;
+            padding: .1em 1em;
+            width: 40vw;
+            display: flex;
+            flex-direction: row-reverse;
+            border-radius: 5px;
+
+            &.error {
+                background: #f44336;
+            }
+    
+            &:hover {
+                box-shadow: 0 3px 10px white;
+            }
+    
+            & button {
+                background: transparent;
+                border: none;
+                color: white;
+                font-size: .8em;
+                width: 10%;
+                cursor: pointer;
+                
+                &:hover {
+                    transform: scale(1.5);
+                }
+            }
+    
+            & div {
+                display: flex;
+                width: 90%;
+    
+                & .toast-img {
+                    align-items: center;
+                    margin-left: -.8em;
+                    width: 10%;
+    
+                    & img {        
+                        min-width: 20px;
+                        min-height: 20px;
+                        max-width: 25px;
+                        max-width: 25px;
+                    }
+                }
+    
+                & .toast-body {
+                    flex-direction: column;
+                    justify-content: center;
+                    width: 90%;
+                    margin-left: 1em;
+                    margin-bottom: .2em;
+    
+                    & .toast-title {
+                        font-weight: 700;
+                        margin-top: .4em;
+                        margin-bottom: 6px;
+                        font-size: .6em;
+                    }
+            
+                    & .toast-message {
+                        margin: 0;
+                        height: 18px;
+                        font-size: .4em;
+                        margin-left: 1px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                }
+            }
+        }
+
+        & .progress-bar {
+            width: calc(100% - 6px);
+            height: 5px;
+            background: green;
+            margin-top: -.5em;
+            padding: 3px;
+            border-radius: 0 0 5px 5px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, .2);
+
+            &.error {
+                background: #f44336;
+            }
+
+            & .progress-bar-fill {
+                display: block;
+                height: 5px;
+                background: #659cef;
+                border-radius: 3px;
+                transition: width 4s ease-in-out;
+
+
+                &.progress {
+                    width: 0%;
+                    animation: progress 2s;
+                }
+
+            }
+        }
+    
+    }
+
+}
+
+@keyframes toast-in-right {
+	from {
+	  transform: translateX(100%);
+	  
+	}
+	to {
+	  transform: translateX(0);
+	}
+}
+@keyframes progress {
+	from {
+	  width: 100%
+	  
+	}
+	to {
+	  width: 0;
+	}
+}
+
+
+
+@media screen and (min-width: 30em) {
+    .container {
+        & .toast {
+
+            & .toast-container {
+                & div {
+                    & .toast-img {
+                        margin-left: -.3em;
+                    }
+                    & .toast-body {
+                        margin-left: .5em;
+                        & .toast-title {
+                            font-size: .7em;
+                        }
+                        & .toast-message {
+                            font-size: .5em;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+@media screen and (min-width: 48em) {
+    .container {
+        & .toast {
+            & .toast-container {
+                & div {
+                    & .toast-img {
+                        margin-left: -.2em;
+                    }
+                    & .toast-body {
+                        margin-left: .4em;
+                        & .toast-title {
+                            font-size: .8em;
+                        }
+                        & .toast-message {
+                            font-size: .6em;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+}
+@media screen and (min-width: 62em) {
+    .container {
+        & .toast {
+
+            & .toast-container {
+                & div {
+                    & .toast-img {
+                        margin-left: 0em;
+                    }
+                    & .toast-body {
+                        margin-left: .2em;
+                        & .toast-title {
+                            font-size: .9em;
+                        }
+                        & .toast-message {
+                            font-size: .7em;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+@media screen and (min-width: 75em) {
+    .container {
+        & .toast {
+
+            & .toast-container {
+                & div {
+                    & .toast-img {
+                        margin-left: 0em;
+                    }
+                    & .toast-body {
+                        margin-left: -.2em;
+                        & .toast-title {
+                            font-size: 1em;
+                        }
+                        & .toast-message {
+                            font-size: .8em;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,317 @@
+.container-loader {
+    position: fixed;
+    margin: -5em 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .85);
+    transition: all 1s ease-in-out;
+    z-index: 2;
+    opacity: 0;
+    display: none;
+
+    & .planet {
+        position: absolute;
+    }
+
+    & .sun {
+        transform: translate(-50%, -50%);
+        width: 7vw;
+        height: 7vw;
+        border-radius: 50%;
+        background-color: orangered;
+        box-shadow: inset 0 -2px 5px yellow;
+        top: 50%;
+        left: 50%;
+
+        &::after {
+            content: "";
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            width: 7vw;
+            height: 7vw;
+            background-color: transparent;
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: 0 0 20px yellow;
+        }
+
+
+    }
+    & .mercury {
+        width: .2vw;
+        height: .2vw;
+        top: 51%;
+        left: 50%;
+        border-radius: 50%;
+        background: orangered;
+        box-shadow: 0 0 1px red;
+        animation: translation-mercury 4s linear infinite;
+
+        &::after {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 50%;
+            background-color: transparent;
+            border-right: 1px solid rgb(255, 255, 255, .3);
+            border-start-end-radius: 100%;
+            width: 6vw;
+            height: 6vw;
+            transform: translate(-6vw, -6vw);
+        }
+    } 
+
+    & .venus {
+        width: .55vw;
+        height: .55vw;
+        top: 51%;
+        left: 50%;
+        border-radius: 50%;
+        background: gray;
+        box-shadow: 0 0 1px white;
+        animation: translation-venus 5s linear infinite; 
+        
+        &::after {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 50%;
+            background-color: transparent;
+            border-right: 1px solid rgb(255, 255, 255, .3);
+            border-start-end-radius: 100%;
+            width: 7vw;
+            height: 7vw;
+            transform: translate(-7vw, -7vw);
+        }
+    }
+    & .earth {
+        width: .6vw;
+        height: .6vw;
+        top: 51%;
+        left: 50%;
+        border-radius: 50%;
+        background: linear-gradient(to bottom left, blue 20%, green 60%, blue 20%);
+        box-shadow: 0 0 1px white;
+        animation: translation-earth 6s linear infinite;
+
+        &::after {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 50%;
+            background-color: transparent;
+            border-right: 1px solid rgb(255, 255, 255, .3);
+            border-start-end-radius: 100%;
+            width: 8vw;
+            height: 8vw;
+            transform: translate(-8vw, -8vw);
+        }
+    }
+    & .mars {
+        width: .3vw;
+        height: .3vw;
+        top: 51%;
+        left: 50%;
+        border-radius: 50%;
+        background: red;
+        box-shadow: 0 0 1px white;
+        animation: translation-mars 7s linear infinite;
+
+        &::after {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 50%;
+            background-color: transparent;
+            border-right: 1px solid rgb(255, 255, 255, .3);
+            border-start-end-radius: 100%;
+            width: 9.5vw;
+            height: 9.5vw;
+            transform: translate(-9.5vw, -9.5vw);
+        }
+    }
+    & .jupiter {
+        width: 2vw;
+        height: 2vw;
+        top: 50.5%;
+        left: 49%;
+        border-radius: 50%;
+        background: linear-gradient(to bottom left, gray, brown, gray);
+        box-shadow: 0 0 1px white;
+        animation: translation-jupiter 8s linear infinite;
+
+        &::after {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 50%;
+            background-color: transparent;
+            border-right: 1px solid rgb(255, 255, 255, .3);
+            border-start-end-radius: 100%;
+            width: 12vw;
+            height: 12vw;
+            transform: translate(-12vw, -12vw);
+        }
+    }
+    & .saturn {
+        width: 1.8vw;
+        height: 1.8vw;
+        top: 50%;
+        left: 50%;
+        border-radius: 50%;
+        background: linear-gradient(to bottom left, pink, rgb(243, 107, 28), pink);
+        box-shadow: 0 0 1px white;
+        animation: translation-saturn 9s linear infinite;
+
+        &::after {
+            position: absolute;
+            content: "";
+            width: 3.7vw;
+            height: .15vw;
+            top: 50%;
+            left: -58%;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: inset 0 0 1px black;
+            animation: translation-saturn-ring 12s infinite;
+            
+        }
+
+        &::before {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 50%;
+            background-color: transparent;
+            border-right: 1px solid rgb(255, 255, 255, .3);
+            border-start-end-radius: 100%;
+            width: 16.5vw;
+            height: 16.5vw;
+            transform: translate(-16.5vw, -16.5vw);
+        }
+    }
+    & .uranus {
+        width: 1vw;
+        height: 1vw;
+        top: 50.5%;
+        left: 50.5%;
+        border-radius: 50%;
+        background: rgb(205, 133, 205);
+        box-shadow: 0 0 1px white;
+        animation: translation-uranus 10s linear infinite;
+
+        &::after {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 50%;
+            background-color: transparent;
+            border-right: 1px solid rgb(255, 255, 255, .3);
+            border-start-end-radius: 100%;
+            width: 20.2vw;
+            height: 20.2vw;
+            transform: translate(-20.2vw, -20.2vw);
+        }
+    }
+    & .neptune {
+        width: .9vw;
+        height: .9vw;
+        top: 50.5%;
+        left: 50.5%;
+        border-radius: 50%;
+        background: rgb(206, 75, 206);
+        box-shadow: 0 0 1px white;
+        animation: translation-neptune 11s linear infinite;
+
+        &::after {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 50%;
+            background-color: transparent;
+            border-right: 1px solid rgb(255, 255, 255, .3);
+            border-start-end-radius: 100%;
+            width: 22.5vw;
+            height: 22.5vw;
+            transform: translate(-22.5vw, -22.5vw);
+        }
+    }
+    
+}
+
+@keyframes translation-mercury {
+    from { 
+        transform: rotateZ(0deg) translateX(6vw); 
+    }
+    to { 
+        transform: rotateZ(360deg) translateX(6vw); 
+    }
+}
+@keyframes translation-venus {
+    from { 
+        transform: rotateZ(30deg) translateX(7vw); 
+    }
+    to { 
+        transform: rotateZ(390deg) translateX(7vw); 
+    }
+}
+@keyframes translation-earth {
+    from { 
+        transform: rotateZ(198deg) translateX(8vw); 
+    }
+    to { 
+        transform: rotateZ(558deg) translateX(8vw); 
+    }
+}
+@keyframes translation-mars {
+    from { 
+        transform: rotateZ(254deg) translateX(9.5vw); 
+    }
+    to { 
+        transform: rotateZ(614deg) translateX(9.5vw); 
+    }
+}
+@keyframes translation-jupiter {
+    from { 
+        transform: rotateZ(269deg) translateX(12vw); 
+    }
+    to { 
+        transform: rotateZ(629deg) translateX(12vw); 
+    }
+}
+@keyframes translation-saturn {
+    from { 
+        transform: rotateZ(93deg) translateX(16.5vw); 
+    }
+    to { 
+        transform: rotateZ(453deg) translateX(16.5vw); 
+    }
+}
+@keyframes translation-saturn-ring {
+    from {
+        transform: rotate(0);
+    } 
+    to {
+        transform: rotate(360deg);
+    }
+}
+@keyframes translation-uranus {
+    from { 
+        transform: rotateZ(310deg) translateX(20.2vw); 
+    }
+    to { 
+        transform: rotateZ(670deg) translateX(20.2vw); 
+    }
+}
+@keyframes translation-neptune {
+    from { 
+        transform: rotateZ(247deg) translateX(22.5vw); 
+    }
+    to { 
+        transform: rotateZ(607deg) translateX(22.5vw); 
+    }
+}

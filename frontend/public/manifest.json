@@ -1,0 +1,30 @@
+{
+  "short_name": "Tcode",
+  "name": "Tcode, Manage Excel and CSV files easily",
+  "icons": [
+    {
+      "src": "checked.png",
+      "sizes": "20x20 21x21 22x22 23x23 24x24 25x25",
+      "type": "image/png"
+    },
+    {
+      "src": "error.png",
+      "type": "image/png",
+      "sizes": "20x20 21x21 22x22 23x23 24x24 25x25"
+    },
+    {
+      "src": "moon.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    }
+    {
+      "src": "sun.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

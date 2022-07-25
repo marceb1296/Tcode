@@ -1,0 +1,158 @@
+.container-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: color 1.8s ease-in-out;
+    transition: border-bottom 1.5s ease-in-out;
+    color: #13232f;
+    padding-bottom: 3em;
+
+    & .field {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        padding-block: 1em;
+
+        & span {
+            font-size: .7em;
+            color: gray;
+            padding: .2em 4em;
+            text-align: center;
+        }
+
+        & .error {
+            text-align: center;
+            background-color: rgb(255, 0, 0, .8);
+            
+            font-size: .7em;
+            border-radius: 10px;
+            color: white;
+            margin: 0 1em;
+        }
+
+        & .shake {
+            animation: shake .5s ease-in-out;
+        }
+
+        & ul {
+            border: 1px solid #999;
+            border-top-width: 0;
+            list-style: none;
+            margin-top: 0;
+            max-height: 143px;
+            overflow-y: auto;
+            padding-left: 0;
+            width: calc(300px + 1rem);
+            text-align: center;
+
+            & .active, li:hover {
+              background-color: rgb(0, 128, 0, .6);
+              cursor: pointer;
+              font-weight: 700;
+
+              & label {
+                display: block;
+                width: 100%;
+              }
+            }
+
+            & li:not(:last-of-type) {
+                border-bottom: 1px solid #999;
+            }
+        }
+    }
+
+    & button {
+        position: relative;
+        padding: .5em 2em;
+        border-radius: 10px;
+        border: none;
+        overflow: hidden;
+        background: transparent;
+        color: #13232f;
+        transition: color .5s ease-in-out;
+        background: rgb(0, 128, 0, .3);
+        cursor: pointer;
+
+        &:hover {
+            color: white;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            width: 0%;
+            height: 100%;
+            border-radius: 10px;
+            border: none;
+            //color: #13232f;
+            top: 0;
+            left: -10px;
+            background-color: rgb(0, 128, 0);
+            z-index: -1;
+            transform: skewX(35deg);
+            transition: width .5s ease-out;
+        }
+        &:hover::after {
+            width: 130%;
+        }
+    }
+
+    &.dark {
+        color: white;
+
+        & input[type=text], input[type=number] {         
+            border-bottom: 2px solid #fbf7f7;
+            color: white;
+        }
+
+        & select {
+            color: white;
+            border-bottom: 2px solid white;
+          }
+        
+        & button {
+            color: rgb(255, 255, 255, .5);
+            
+            &:hover {
+                color: white;
+            }
+        }
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(5px);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@media (hover: none) {
+    .container-data {
+
+        & button {
+            background: green;
+            color: white;
+        }
+
+        &.dark {
+            & button {
+                color: white;
+            }
+        }
+    }
+}

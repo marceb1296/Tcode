@@ -78,41 +78,31 @@ const TcodeFileDownload = ({theme, data, dispatch}) => {
                 return rest;
             })
         }
-        post("http://172.18.0.3:5000/tcode/download", addData, true).then(async res => {
+        // development
+        // "http://172.18.0.3:5000/tcode/download"
+        post("/tcode/download", addData, true).then(async res => {
             await new Promise(r => setTimeout(r, 2000));
             dispatch({
                 type: "LOADER",
                 payload: false
             })
 
-            if (res.status === "Success") {
-
-                const url = window.URL.createObjectURL(res);
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = url;
-                // the filename you want
-                a.download = `${form.fileName}.${form.ext}`;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                
-                dispatch({
-                    type: "ADD TOAST",
-                    payload: {
-                        title: "Success", 
-                        message: "File downloaded successfully"
-                    }
-                })
-            } else {
-                dispatch({
-                    type: "ADD TOAST",
-                    payload: {
-                        title: "Error", 
-                        message: "Fail parsing data"
-                    }
-                })
-            }
+            const url = window.URL.createObjectURL(res);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `${form.fileName}.${form.ext}`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            dispatch({
+                type: "ADD TOAST",
+                payload: {
+                    title: "Success", 
+                    message: "File downloaded successfully"
+                }
+            })
             setErrors({});
         }).catch(async err => {
             await new Promise(r => setTimeout(r, 2000));
@@ -124,7 +114,7 @@ const TcodeFileDownload = ({theme, data, dispatch}) => {
                 type: "ADD TOAST",
                 payload: {
                     title: "Error", 
-                    message: "Something went wrong. please try again later."
+                    message: "Fail parsing data"
                 }
             })
             setErrors({});

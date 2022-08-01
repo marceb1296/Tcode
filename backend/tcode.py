@@ -1,11 +1,11 @@
 from flask import Flask, send_from_directory
 from flask_restful import Api, Resource, reqparse
-from flask_cors import CORS #comment this on deployment
+#from flask_cors import CORS # uncomment in development
 from api.tcode import Tcode
 from api.tcodeDownload import TcodeDownload
 
 app = Flask(__name__, static_url_path='', static_folder='build')
-CORS(app) #comment this on deployment
+#CORS(app) # uncomment in development
 api = Api(app)
 
 @app.route("/", defaults={'path':''})

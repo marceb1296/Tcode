@@ -101,7 +101,9 @@ const TcodeFilesForm = ({state, dispatch}) => {
         setSubmited(true);
         clearForm(e.target);
 
-        post("http://172.18.0.3:5000/tcode", form).then(async res => {
+        // development
+        // http://172.18.0.3:5000/tcode
+        post("/tcode", form).then(async res => {
             await new Promise(r => setTimeout(r, 2000));
             dispatch({
                 type: "LOADER",

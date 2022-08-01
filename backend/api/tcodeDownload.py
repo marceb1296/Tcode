@@ -14,10 +14,10 @@ class TcodeDownload(Resource):
         try:
             data = json.loads(request.form.get("data"))
         except:
-            return {
-                'status': 'Error',
-                "message": "Fail parsing data"
-            }
+            return Response(
+                "Fail parsing data",
+                status=500
+            )
 
         if ext == "csv":
             fields = data[0].keys()

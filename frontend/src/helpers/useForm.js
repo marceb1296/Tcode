@@ -1,9 +1,10 @@
 import { useState } from 'react';
 
-const useForm = (initialData, validations, state) => {
+const useForm = (initialData, validations, warnings, state) => {
 
     const [form, setForm] = useState(initialData);
     const [errors, setErrors] = useState({});
+    const [warning, setWarning] = useState({});
     const [filtered, setFiltered] = useState({});
     const [active, setActive] = useState(0);
 
@@ -34,6 +35,7 @@ const useForm = (initialData, validations, state) => {
         } else {
             setErrors(validations(form, state))
         }
+        setWarning(warnings(form));
     }
 
     const handleClick = (e) => {
@@ -112,12 +114,14 @@ const useForm = (initialData, validations, state) => {
     return {
         form,
         errors,
+        warning,
         filtered,
         active,
         handleChange,
         handleBlur,
         handleClick,
         setErrors,
+        setWarning,
         handleKeyDown,
         resetForm
     };

@@ -2,12 +2,9 @@ from core.handler import IsCsv, IsUrl, isExcel
 from flask_restful import Resource
 from flask import request
 from werkzeug.utils import secure_filename
-import os
 
 
 ALLOWED_EXTENSIONS = {"csv", "xlsx", "xlsm", "xltx", "xltm"}
-UPLOAD_FOLDER = './tmp_files'
-
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -55,7 +52,7 @@ class Tcode(Resource):
         if is_writeabled_:
           get_result = parse_.parseData()
           
-          result = pa_rse.join_dicts(result_, get_result)
+          result = parse.join_dicts(result_, get_result)
             
         else:
           return {
@@ -71,19 +68,33 @@ class Tcode(Resource):
 
     if url:
       parse = IsUrl()
-      parse.setContent(url)
+
+      try:
+        parse.setContent(url)
+      except:
+        return {
+          'status': 'Error',
+          "message": "Failed to establish a connection with %s" % url
+        }
+
+      get_url_result = parse.getData()
+      if not get_url_result:
+        return {
+          'status': 'Error',
+          "message": "Can't find any table from %s" % url
+        }
 
       if result_:
-        result_ = parse.join_dicts(result_, parse.getData())
+        result_ = parse.join_dicts(result_, get_url_result)
       else:
-        result_ = parse.getData()
+        result_ = get_url_result
 
     for i in range(len(result_)):
-        new_dict = {"pk": i}
-        for k, v in result_[i].items():
-            new_dict.update({k:v})
+      new_dict = {"pk": i}
+      for k, v in result_[i].items():
+        new_dict.update({k:v})
 
-        result.append(new_dict)
+      result.append(new_dict)
 
     return {
       'status': 'Success',

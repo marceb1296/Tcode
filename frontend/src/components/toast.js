@@ -25,11 +25,12 @@ const Toast = ({state, dispatch}) => {
             if (getPb === null || getToast ===  null) {
                 return;
             }
+
+            await new Promise(r => setTimeout(r, 3000));   
             getPb.classList.add("progress");
             getToast.classList.add("fade"); 
             
-            
-            await new Promise(r => setTimeout(r, 2000));        
+            await new Promise(r => setTimeout(r, 2100));        
             getPb.classList.remove("progress");
             getToast.classList.remove("fade");                   
             dispatch({

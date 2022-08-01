@@ -95,18 +95,39 @@ const validations = (form, state) => {
     return errors;
 }
 
+const warnings = (form) => {
+    let warnings = {};
+    let warn;
+
+    if (form.conditional !== "") {
+        let cols = form.column.split(", ");
+        if (cols.length > 1) {
+            warn = `Conditional will only have effect on "${cols[0]}"`;
+            warnings = {
+                ...warnings,
+                conditional_warning: warn
+            }
+        }
+    }
+
+    return warnings
+}
+
 const TcodeDataForm = ({state, dispatch}) => {
 
     const {
         form, 
         errors,
+        warning,
         filtered,
         active,
         handleChange,
         handleClick,
         handleKeyDown, 
+        handleBlur,
         setErrors, 
-        resetForm} = useForm(initialData, validations, state);
+        setWarning,
+        resetForm} = useForm(initialData, validations, warnings, state);
 
     const [submited, setSubmited] = useState(false);
 
@@ -160,7 +181,9 @@ const TcodeDataForm = ({state, dispatch}) => {
                 payload: false
             })
             setErrors({});
+            setWarning({});
         }).catch(async err => {
+            console.log(err)
             await new Promise(r => setTimeout(r, 2000));
             dispatch({
                 type: "LOADER",
@@ -168,6 +191,7 @@ const TcodeDataForm = ({state, dispatch}) => {
             })
             setSubmited(false);
             setErrors({});
+            setWarning({});
         })
     }
 
@@ -180,7 +204,7 @@ const TcodeDataForm = ({state, dispatch}) => {
                     <input className={errors.cols ? "shake" : "input-data"} id="column" name="column" onChange={handleChange} onKeyDown={handleKeyDown} type="text" value={form.column} placeholder="col | col1, col2"></input>
                     { filtered.column && filtered.column.length > 0 && form.column !== "" &&
                         <ul>
-                            {filtered.column.map((el, index) => <li className={index === active && "active"} key={index} id="filter-column" onClick={handleClick}>{el}</li>)}
+                            {filtered.column.map((el, index) => <li className={index === active ? "active":"element"} key={index} id="filter-column" onClick={handleClick}>{el}</li>)}
                         </ul>
                     }
                     { errors.cols &&
@@ -216,7 +240,7 @@ const TcodeDataForm = ({state, dispatch}) => {
                     <input className={errors.del ? "shake" : "input-data"} id="del" name="del" onChange={handleChange} type="text" value={form.del} onKeyDown={handleKeyDown} placeholder="col | col1, col2"></input>
                     { filtered.del && filtered.del.length > 0 && form.del !== "" &&
                         <ul>
-                            {filtered.del.map((el, index) => <li className={index === active && "active"} key={index} id="filter-del" onClick={handleClick}>{el}</li>)}
+                            {filtered.del.map((el, index) => <li className={index === active ? "active":"element"} key={index} id="filter-del" onClick={handleClick}>{el}</li>)}
                         </ul>
                     }
                     { errors.del &&
@@ -225,9 +249,12 @@ const TcodeDataForm = ({state, dispatch}) => {
                 </div>
                 <div className="field">
                     <label htmlFor="conditional">Conditional:</label>
-                    <input className={errors.conditional ? "shake" : "input-data"} id="conditional" name="conditional" onChange={handleChange} onKeyDown={(e) => e.key === "Enter" && e.preventDefault()} type="text" value={form.conditional} placeholder="< 45, != state, pk 5-50 | d >= date, d < date"></input>
+                    <input className={errors.conditional ? "shake" : "input-data"} id="conditional" name="conditional" onChange={handleChange} onKeyDown={(e) => e.key === "Enter" && e.preventDefault()} onBlur={handleBlur} type="text" value={form.conditional} placeholder="< 45, != state, pk 5-50 | d >= date, d < date"></input>
                     { errors.conditional &&
                         <span className="error">{errors.conditional}</span>
+                    }
+                    { warning.conditional_warning &&
+                        <span style={{backgroundColor: "#ffeb3b", color: "black"}} className="error">{warning.conditional_warning}</span>
                     }
                     <span>{`Filter data by conditional like: < > = >= <= !=.`} <br />By pk: pk 3 | pk 3-46. <br />{`Or by dates: d > 2012-12-12 | d <= 2012-12-12.`}<br />Note: In date the expected format is ISO 8601 (YYYY-MM-DDTHH:mm:ss.sssZ)<br />Others formats may not work across all browsers.</span>
                 </div>

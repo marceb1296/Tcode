@@ -102,12 +102,13 @@ const TcodeFilesForm = ({state, dispatch}) => {
         clearForm(e.target);
 
         post("http://172.18.0.3:5000/tcode", form).then(async res => {
+            await new Promise(r => setTimeout(r, 2000));
+            dispatch({
+                type: "LOADER",
+                payload: false
+            })
+
             if (res.status === "Success") {
-                await new Promise(r => setTimeout(r, 2000));
-                dispatch({
-                    type: "LOADER",
-                    payload: false
-                })
                 dispatch({
                     type: "SET COLUMNS",
                     payload : Object.keys(res.data_show[0])
@@ -119,7 +120,8 @@ const TcodeFilesForm = ({state, dispatch}) => {
                 dispatch({
                     type: "SET DATA SHOW", 
                     payload: res.data_show
-                })
+                })              
+            } else {
                 dispatch({
                     type: "ADD TOAST",
                     payload: {
@@ -127,8 +129,8 @@ const TcodeFilesForm = ({state, dispatch}) => {
                         message: res.message
                     }
                 })
-                setErrors({});
             }
+            setErrors({});
         }).catch( async err => {
             await new Promise(r => setTimeout(r, 2000));
             dispatch({

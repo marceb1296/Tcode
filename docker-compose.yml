@@ -6,6 +6,9 @@ services:
     image: tcode/frontend
     build:
       context: ./frontend
+    # Uncoment this if you want test some features
+    #volumes:
+      #- ./frontend/src:/app/src
     ports:
       - 3000:3000
     
@@ -14,8 +17,9 @@ services:
     image: tcode/backend
     build:
       context: ./backend
-    volumes:
-      - ./backend:/app
+    # Uncoment this if you want test some features
+    #volumes:
+      #- ./backend:/app
     depends_on:
       - frontend
     ports:

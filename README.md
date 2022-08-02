@@ -53,8 +53,7 @@ Clone repository:
     - Start up the server, `npm start`.
     - If you want to performs some features in development, you need to do:
         - Uncomment `StricMode` lines in `App.js`.
-        - In `tcodeFileDownload.js` & `tcodeFilesForm.js` files change in `post` function, the url with the content of the line that is above 
-`.
+        - In `tcodeFileDownload.js` & `tcodeFilesForm.js` files change in `post` function, the url with the content of the line that is above.
 
 # How it works?
 

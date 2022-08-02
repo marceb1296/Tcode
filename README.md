@@ -3,6 +3,11 @@ Handle and operate excel and csv files easily.
 
 ![tcode](./tcode.gif)
 
+# Live Demo.
+http://mh-tcode.herokuapp.com/ 
+> For now, it will be hosted in heroku, with time i plan to move it into a custom host, still, this info will be updated
+
+
 # Installation.
 
 Clone repository:

@@ -123,6 +123,13 @@ const TcodeFilesForm = ({state, dispatch}) => {
                     type: "SET DATA SHOW", 
                     payload: res.data_show
                 })              
+                dispatch({
+                    type: "ADD TOAST",
+                    payload: {
+                        title: res.status, 
+                        message: res.message
+                    }
+                })
             } else {
                 dispatch({
                     type: "ADD TOAST",

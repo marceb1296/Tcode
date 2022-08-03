@@ -17,7 +17,7 @@ Clone repository:
  
 1. **With Docker.**
 
-    Enter to dir:
+    Enter to the project:
     
     `cd Tcode`
     
@@ -43,6 +43,10 @@ Clone repository:
 2. **Without Docker.**
 
     Create and get into a virtual environment with python, and create a node environment inside of it (optional, highly recommended).
+    
+    Enter to the project:
+    
+    `cd Tcode`
     
     **In backend/:**
     - install requeriments, `pip install -r requirements.txt`

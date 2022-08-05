@@ -24,6 +24,12 @@ class Base:
     
 
     def join_dicts(self, first, second):
+
+        """
+        Main function to join dicts from files/url
+        will add columns and values from one to other, depends on wich has more data
+        and data that dosen't exist, will be created as NaN
+        """
         n_first = len(first)
         keys_first = first[0].keys()
         keys_second = second[0].keys()

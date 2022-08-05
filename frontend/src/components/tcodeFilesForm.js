@@ -176,6 +176,9 @@ const TcodeFilesForm = ({state, dispatch}) => {
                         }
                     </p>
                     <p>
+                        <span style={{color: "gray", backgroundColor: "transparent"}}>Suported files: csv, xlsx, xlsm, xltx, xltm</span>
+                    </p>
+                    <p>
                         <label htmlFor='by-url'>Get Table from url</label>
                         <input id="by-url" className={errors.url ? "shake" : "input-data"} onChange={handleChange} type="text" name='url' value={form.url}></input>
                         { errors.url &&

@@ -176,7 +176,7 @@ const TcodeFilesForm = ({state, dispatch}) => {
                         }
                     </p>
                     <p>
-                        <span style={{color: "gray", backgroundColor: "transparent"}}>Suported files: csv, xlsx, xlsm, xltx, xltm</span>
+                        <span style={{color: "gray", backgroundColor: "transparent"}}>Supported files: csv, (xlsx, xlsm, xltx, xltm)</span>
                     </p>
                     <p>
                         <label htmlFor='by-url'>Get Table from url</label>

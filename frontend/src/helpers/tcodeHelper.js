@@ -206,7 +206,7 @@ const tcodeHelper = async (form, state) => {
                         }
                     }
                 } else if (type === "=") {
-                    return el[cols[0]] == value;
+                    return el[cols[0]] == element.toString().replace("= ", "");
                 } else if (type === "!=") {
                     return el[cols[0]] != value
                 } else if (type === "pk") {

@@ -5,10 +5,10 @@ const inialValue = {
     rows: 5
 }
 
-const TcodeTable = ({data, columns, theme, query, error}) => {
+const TcodeTable = ({data, columns, theme, query, error, tableNumber, result}) => {
 
     const [rows, setRows] = useState(inialValue);
-    const cols = columns !== undefined ? columns : Object.keys(data[0]);
+    const cols = tableNumber === 0 ? columns : result.length > 0 ? Object.keys(result[0]) : [];
     const [showNaN, setShowNaN] = useState(false);
 
     const handleChange = (e) => {
@@ -18,7 +18,7 @@ const TcodeTable = ({data, columns, theme, query, error}) => {
 
     return (       
         <>
-            { columns === undefined && query !== undefined && query.length > 0 &&
+            { tableNumber > 0 && query.length > 0 &&
                 <div className={`query ${theme}`}>
                     <div className='values'>
                         <label>Query:</label>
@@ -29,18 +29,18 @@ const TcodeTable = ({data, columns, theme, query, error}) => {
             }
             { data.length > 0 &&
                 <p className={`rows ${theme}`}>
-                    <label htmlFor={columns === undefined ? "rows" : "rows-one"}>Rows to show:</label>
-                    <select id={columns === undefined ? "rows" : "rows-one"} value={rows.rows} onChange={handleChange}>
+                    <label htmlFor={`rows-${tableNumber}`}>Rows to show:</label>
+                    <select id={`rows-${tableNumber}`} value={rows.rows} onChange={handleChange}>
                         <option value={5}>5</option>
                         <option value={10}>10</option>
                         <option value={20}>20</option>
-                        {columns === undefined &&
+                        {tableNumber > 0 &&
                             <option value={data.length}>all</option>
                         }
                     </select>
                 </p>
             }
-            { error !== undefined && error.length > 0 &&
+            { tableNumber > 0 && error.length > 0 &&
                 <div className='errors'>
                     <div className='values'>
                         <span><b>Warning!</b></span>

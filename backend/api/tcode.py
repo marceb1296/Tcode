@@ -19,12 +19,13 @@ class Tcode(Resource):
         columns = ["pk"]
         result = []
 
-        url = request.POST.get("url")
-        main = request.FILES.get("file_main")
-        second = request.FILES.get("file_second")
+        url = request.form.get("url")
+        main = request.files.get("file_main")
+        second = request.files.get("file_second")
 
         if main and allowed_file(main.name):
-            ext = main.name.split(".")[1]
+            filename = secure_filename(main.filename)
+            ext = filename.split(".")[1]
 
             if ext == "csv":
                 parse = IsCsv()
@@ -53,8 +54,8 @@ class Tcode(Resource):
                 start_index = index_result
 
         if second and allowed_file(second.name) and main:
-
-            ext_second = second.name.split(".")[1]
+            filename_ = secure_filename(second.filename)
+            ext_second = filename_.split(".")[1]
 
             if ext_second == "csv":
                 parse_second = IsCsv()

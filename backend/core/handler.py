@@ -4,13 +4,13 @@ import requests as r
 from bs4 import BeautifulSoup as bs
 from openpyxl import load_workbook
 
+
 class Base:
 
     def __init__(self) -> None:
         self.file = TemporaryFile(mode="r+")
         self.content = ""
         self.soup = None
-    
 
     def write_to_temp(self, file) -> bool:
 
@@ -21,175 +21,147 @@ class Base:
             return False
 
         return True
-    
 
-    def join_dicts(self, first, second):
+    def _update_dicts(self, main, main_cols, second, second_cols):
+        """
+        when we use the update method into a dict
+        this return None, so we use 'or'
+        to use the already updated dict
+        """
+        result = [
+            dict.update(
+                {key: None for key in main_cols}
+            ) or dict for dict in main.copy() if type(dict).__name__ == "dict"
+        ]
 
+        return result + [
+            dict.update(
+                {key: None for key in second_cols}
+            ) or dict for dict in second.copy() if type(dict).__name__ == "dict"
+        ]
+
+    def join_dicts(self, dict_one, dict_one_cols, dict_two, dict_two_cols):
         """
         Main function to join dicts from files/url
-        will add columns and values from one to other, depends on wich has more data
-        and data that dosen't exist, will be created as NaN
+        will add columns and values from one to other
+        data that dosen't exist will be created as NaN
         """
-        n_first = len(first)
-        keys_first = first[0].keys()
-        keys_second = second[0].keys()
-        n_second = len(second)
 
-        
-        if n_first >= n_second:
-            print("first")
-            n_to_add = n_first - n_second
-            for i in range(n_to_add):
-                second.append({i: "NaN" for i in keys_second})
+        cols_dif_main = [
+            col for col in dict_two_cols if col not in dict_one_cols]
+        cols_dif_second = [
+            col for col in dict_one_cols if col not in dict_two_cols]
 
-            
-            for n in range(n_first):
-                item = first[n]
-                item_copy = item.copy()
-                keys = second[n].keys()
-                
-
-                contains = [i for i in keys if i in item]
-                
-
-                if contains:
-                    for i in keys:
-                        if i not in item:
-                            item.update({i: "NaN"})
-                    dict_with_keys = {k: "NaN" for k in item_copy.keys()}
-                    dict_with_keys.update(second[n])
-                    if [k for k in dict_with_keys.values() if k != "NaN"]:
-                        first.append(dict_with_keys)
-                else:
-                    for i in keys:
-                        if i not in item:
-                         item.update({i: second[n][i]})
-                    
-            return first
-
-        else:
-
-            n_to_add = n_second - n_first
-
-            for i in range(n_to_add):
-                first.append({i: "NaN" for i in keys_first})
-
-            for n in range(n_second):
-                item = second[n]
-                item_copy = item.copy()
-                keys = first[n].keys()
-                
-                contains = [i for i in keys if i in item]
-                
-
-                if contains:
-                    for i in keys:
-                        if i not in item:
-                            item.update({i: "NaN"})
-                    dict_with_keys = {k: "NaN" for k in item_copy.keys()}
-                    dict_with_keys.update(first[n])
-                    if [k for k in dict_with_keys.values() if k != "NaN"]:
-                        second.append(dict_with_keys)
-                else:
-                    for i in keys:
-                        if i not in item:
-                         item.update({i: first[n][i]})
-
-            return second
-    
-        
+        return self._update_dicts(dict_one, cols_dif_main, dict_two, cols_dif_second)
 
 
 class IsCsv(Base):
 
-    def parseData(self):
-       
+    def parseData(self, index_data):
+
         data = []
         reader = csv.DictReader(self.file)
+        columns = reader.fieldnames
+        index = index_data
+
         for row in reader:
-            data.append(row)
+            row_pk = {"pk": index_data}
+            row_pk.update(row)
+            data.append(row_pk)
+            index += 1
 
         self.file.close()
 
-        return data
+        return columns, data, index
 
 
 class isExcel(Base):
 
-
-    def parseData(self, file):
-        wb = load_workbook(file)
+    def parseData(self, file, index_data):
+        wb = load_workbook(file, read_only=True)
 
         excel_data = []
+        columns = []
 
-        for i in wb.sheetnames:
-            sheet = wb[i]
+        index = index_data
+
+        for wb_sheet in wb.sheetnames:
+
+            sheet = wb[wb_sheet]
             data = []
 
-            for i in range(2, sheet.max_row + 1):
-                dict = {}
-                for n in range(len(sheet[i])):
-                    if not sheet[1][n].value:
-                        continue
-                    dict.update({sheet[1][n].value:str(sheet[i][n].value)})
-                if dict:
-                    data.append(dict)
+            header_row = [sheet.cell(row=1, column=col_idx).value or "column-%s" %
+                          col_idx for col_idx in range(1, (sheet.max_column or -1) + 1)]
+
+            for row in sheet.iter_rows(min_row=2, values_only=True):
+                sheet_dict = {"pk": index}
+                sheet_dict.update({header_row[row_index] or "column-%s" % row_index: row[row_index]
+                                  for row_index in range(len(header_row))})  # type: ignore
+                data.append(sheet_dict)
+                index += 1
 
             if data:
                 if excel_data:
-                    excel_data = self.join_dicts(excel_data, data)
+                    excel_data = self.join_dicts(
+                        excel_data, columns, data, header_row)
                 else:
                     excel_data = data
-        
-        return excel_data
 
-    
+                columns.extend(
+                    [col for col in header_row if col not in columns])
+
+        return columns, excel_data, index
+
+
 class IsUrl(Base):
 
-    
     def setContent(self, url):
         get = r.get(url)
         self.content = get.text
         self.setParser()
 
-
     def setParser(self):
         self.soup = bs(self.content, "html.parser")
 
-
-    def getData(self):
+    def getData(self, index_data):
 
         table = self.soup.find_all("table")
 
         all_table_data = []
+        columns = []
+        index = index_data
 
-       
         for i in table:
-       
 
             table_data = []
             head = i.find("thead")
             body = i.find("tbody")
-   
+
             if not head:
                 continue
 
+            header_row = [i.text.strip() for i in head.find_all("th")]
 
-            columns = [i.text.strip() for i in head.find_all("th")]
-            
             body_tr = body.find_all("tr")
             for b_tr in body_tr:
                 body_td = b_tr.find_all("td")
-                table_data.append({columns[i]:body_td[i].text.strip() for i in range(len(columns))})
+
+                row_pk = {"pk": index}
+                row_pk.update({header_row[i]: body_td[i].text.strip()
+                              for i in range(len(header_row))})
+                table_data.append(row_pk)
+
+                index += 1
+
             if not table_data:
                 continue
+
             if all_table_data:
-                all_table_data = self.join_dicts(all_table_data, table_data)
+                all_table_data = self.join_dicts(
+                    all_table_data, columns, table_data, header_row)
             else:
                 all_table_data = table_data
-        
-        return all_table_data
 
+            columns.extend(header_row)
 
-            
-
+        return columns, all_table_data, index
